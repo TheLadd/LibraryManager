@@ -14,7 +14,7 @@ class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
-    // Test entity mapping and any custom queries
+    // Test entity mapping and any custom queries. Can test to learn JpaRepository behaviors, too.
 
     @Test
     void shouldFindByBookId() {
