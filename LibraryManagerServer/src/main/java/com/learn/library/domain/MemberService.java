@@ -1,6 +1,6 @@
 package com.learn.library.domain;
 
-import com.learn.library.data.MemberRepository;
+import com.learn.library.data.MemberJpaRepository;
 import com.learn.library.model.Member;
 import org.springframework.stereotype.Service;
 
@@ -8,14 +8,14 @@ import java.util.List;
 
 @Service
 public class MemberService {
-    private MemberRepository memberRepository;
+    private MemberJpaRepository memberJpaRepository;
 
 
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public MemberService(MemberJpaRepository memberJpaRepository) {
+        this.memberJpaRepository = memberJpaRepository;
     }
 
     public List<Member> findAll() {
-        return memberRepository.findAll();
+        return memberJpaRepository.findAll();
     }
 }

@@ -8,15 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class MemberRepositoryTest {
+class MemberJpaRepositoryTest {
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberJpaRepository memberJpaRepository;
 
     // Test entity mapping and any custom queries. Can test to learn JpaRepository behaviors, too.
 
     @Test
     void shouldFindByMemberId() {
-        Member actual = memberRepository.findByMemberId(1);
+        Member actual = memberJpaRepository.findByMemberId(1);
         assertNotNull(actual);
         assertEquals(1, actual.getMemberId());
         assertEquals("Owen", actual.getFirstName());
@@ -25,7 +25,7 @@ class MemberRepositoryTest {
 
     @Test
     void shouldNotFindByUnknownId() {
-        Member actual = memberRepository.findByMemberId(99);
+        Member actual = memberJpaRepository.findByMemberId(99);
         assertNull(actual);
     }
 }
