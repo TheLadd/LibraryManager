@@ -6,8 +6,10 @@ import jakarta.persistence.*;
 @Table(name = "member")
 public class Member implements User {
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberId;
+//    private int memberId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -24,7 +26,7 @@ public class Member implements User {
     }
 
     @Override
-    public int getMemberId() {
+    public int getUserId() {
         return this.memberId;
     }
 

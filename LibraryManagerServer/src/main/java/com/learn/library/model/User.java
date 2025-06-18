@@ -1,7 +1,8 @@
 package com.learn.library.model;
 
+
 public interface User {
-    int getMemberId();
+    int getUserId();
     String getFirstName();
     String getLastName();
     void setFirstName(String firstName);

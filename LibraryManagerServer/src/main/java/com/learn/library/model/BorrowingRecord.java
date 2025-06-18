@@ -13,7 +13,8 @@ public class BorrowingRecord {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private User member;
+//    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -38,7 +39,7 @@ public class BorrowingRecord {
         return borrowingRecordId;
     }
 
-    public Member getMember() {
+    public User getMember() {
         return member;
     }
 

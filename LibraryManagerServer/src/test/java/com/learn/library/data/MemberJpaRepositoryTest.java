@@ -18,7 +18,7 @@ class MemberJpaRepositoryTest {
     void shouldFindByMemberId() {
         Member actual = memberJpaRepository.findByMemberId(1);
         assertNotNull(actual);
-        assertEquals(1, actual.getMemberId());
+        assertEquals(1, actual.getUserId());
         assertEquals("Owen", actual.getFirstName());
         assertEquals("Ribera", actual.getLastName());
     }
