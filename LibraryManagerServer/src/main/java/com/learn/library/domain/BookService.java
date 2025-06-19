@@ -5,6 +5,7 @@ import com.learn.library.model.Book;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class BookService {
@@ -16,5 +17,10 @@ public class BookService {
 
     public List<Book> findAll() {
         return bookJpaRepository.findAll();
+    }
+
+    // Could just as easily implement findByAuthor, etc. but this is to practice strategy pattern/functional programming
+    public List<Book> findByPredicate(Predicate<Book> predicate) {
+        return bookJpaRepository.findAll().stream().filter(predicate).toList();
     }
 }

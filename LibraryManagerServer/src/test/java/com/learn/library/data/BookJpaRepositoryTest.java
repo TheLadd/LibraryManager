@@ -32,10 +32,29 @@ class BookJpaRepositoryTest {
         assertNull(actual);
     }
 
+//    @Test
+//    void shouldFindBooksByLovecraft() {
+//        List<Book> actual = bookJpaRepository.findByAuthor("H.P. Lovecraft");
+//        assertNotNull(actual);
+//        assertFalse(actual.isEmpty());
+//    }
+
     @Test
-    void shouldFindBooksByLovecraft() {
-        List<Book> actual = bookJpaRepository.findByAuthor("H.P. Lovecraft");
-        assertNotNull(actual);
-        assertFalse(actual.isEmpty());
+    void shouldSaveNewBook() {
+        Book bookBeforeAdd = new Book("Murtagh", "Christopher Paolini", "Fantasy");
+        Book bookAfterAdd = bookJpaRepository.save(bookBeforeAdd);
+        assertEquals(bookBeforeAdd.getTitle(), bookAfterAdd.getTitle());
+        assertEquals(bookBeforeAdd.getAuthor(), bookAfterAdd.getAuthor());
+        assertEquals(bookBeforeAdd.getGenre(), bookAfterAdd.getGenre());
+        assertNotEquals(0, bookAfterAdd.getBookId());
+
+        List<Book> all = bookJpaRepository.findAll();
+        all.contains(bookAfterAdd);
     }
+
+    @Test
+    void shouldDeleteBook() {}
+
+    @Test
+    void shouldNotDeleteUnkown() {}
 }

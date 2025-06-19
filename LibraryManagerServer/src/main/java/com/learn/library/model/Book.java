@@ -2,6 +2,8 @@ package com.learn.library.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "book")
 public class Book {
@@ -21,10 +23,10 @@ public class Book {
 
     public Book() {}
 
-    public Book(int bookId, String title, String author) {
-        this.bookId = bookId;
+    public Book(String title, String author, String genre) {
         this.title = title;
         this.author = author;
+        this.genre = genre;
     }
 
 
@@ -68,5 +70,16 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", genre='" + genre + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Book book)) return false;
+        return bookId == book.bookId && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(genre, book.genre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookId, title, author, genre);
     }
 }
