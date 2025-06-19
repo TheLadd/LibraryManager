@@ -11,12 +11,13 @@ public class BorrowingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int borrowingRecordId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private User member;
-//    private Member member;
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)     // Tests don't pass if we're lazy fetching. I should do more research on this.
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
 
@@ -28,8 +29,8 @@ public class BorrowingRecord {
 
     public BorrowingRecord() {}
 
-    public BorrowingRecord(Member member, Book book, LocalDate checkedOutOn, LocalDate returnedOn) {
-        this.member = member;
+    public BorrowingRecord(Member user, Book book, LocalDate checkedOutOn, LocalDate returnedOn) {
+        this.user = user;
         this.book = book;
         this.checkedOutOn = checkedOutOn;
         this.returnedOn = returnedOn;
@@ -39,8 +40,8 @@ public class BorrowingRecord {
         return borrowingRecordId;
     }
 
-    public User getMember() {
-        return member;
+    public User getUser() {
+        return user;
     }
 
     public Book getBook() {
@@ -55,8 +56,8 @@ public class BorrowingRecord {
         return returnedOn;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setUser(Member user) {
+        this.user = user;
     }
 
     public void setBook(Book book) {
@@ -69,5 +70,16 @@ public class BorrowingRecord {
 
     public void setReturnedOn(LocalDate returnedOn) {
         this.returnedOn = returnedOn;
+    }
+
+    @Override
+    public String toString() {
+        return "BorrowingRecord{" +
+                "borrowingRecordId=" + borrowingRecordId +
+                ", user=" + user +
+                ", book=" + book +
+                ", checkedOutOn=" + checkedOutOn +
+                ", returnedOn=" + returnedOn +
+                '}';
     }
 }
