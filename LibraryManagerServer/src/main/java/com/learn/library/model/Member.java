@@ -2,51 +2,29 @@ package com.learn.library.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "member")
-public class Member implements User {
-    @Id
-    @Column(name = "member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int memberId;
-//    private int memberId;
+@DiscriminatorValue("member")
+//@Table(name = "member") // Implicitly present, I think
+public class Member extends User {
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "joined_on")
+    LocalDate joinedOn;
 
     public Member() {}
 
-    public Member(int memberId, String firstName, String lastName) {
-        this.memberId = memberId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Member(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 
     @Override
-    public int getUserId() {
-        return this.memberId;
-    }
-
-    @Override
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    @Override
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    @Override
-    public void setFirstName(String firstName) {
-       this.firstName = firstName;
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String toString() {
+        return "Member{" +
+                "userId=" + getUserId() +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", joinedOn='" + this.joinedOn +
+                '}';
     }
 }

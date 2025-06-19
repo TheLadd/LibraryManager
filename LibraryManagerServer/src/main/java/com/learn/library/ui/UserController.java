@@ -1,7 +1,7 @@
 package com.learn.library.ui;
 
-import com.learn.library.domain.MemberService;
-import com.learn.library.model.Member;
+import com.learn.library.domain.UserService;
+import com.learn.library.model.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +12,15 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/member")
-public class MemberController {
-    private MemberService memberService;
+public class UserController {
+    private UserService userService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    List<Member> findAll() {
-        return memberService.findAll();
+    List<User> findAll() {
+        return userService.findAll();
     }
 }

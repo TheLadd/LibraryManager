@@ -1,6 +1,7 @@
 package com.learn.library.data;
 
 import com.learn.library.model.Member;
+import com.learn.library.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 
 @Repository
-public interface MemberJpaRepository extends MemberRepository, JpaRepository<Member, Integer> {
-    List<Member> findAll();
-    Member findByMemberId(int memberId);
+public interface UserJpaRepository extends UserRepository, JpaRepository<User, Integer> {
+    List<User> findAll();
+    User findByUserId(int userId);
 }

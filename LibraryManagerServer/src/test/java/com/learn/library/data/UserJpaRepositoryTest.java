@@ -1,6 +1,7 @@
 package com.learn.library.data;
 
 import com.learn.library.model.Member;
+import com.learn.library.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,15 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class MemberJpaRepositoryTest {
+class UserJpaRepositoryTest {
     @Autowired
-    private MemberJpaRepository memberJpaRepository;
+    private UserJpaRepository userJpaRepository;
 
     // Test entity mapping and any custom queries. Can test to learn JpaRepository behaviors, too.
 
     @Test
-    void shouldFindByMemberId() {
-        Member actual = memberJpaRepository.findByMemberId(1);
+    void shouldFindByUserId() {
+        User actual = userJpaRepository.findByUserId(1);
         assertNotNull(actual);
         assertEquals(1, actual.getUserId());
         assertEquals("Owen", actual.getFirstName());
@@ -25,7 +26,7 @@ class MemberJpaRepositoryTest {
 
     @Test
     void shouldNotFindByUnknownId() {
-        Member actual = memberJpaRepository.findByMemberId(99);
+        User actual = userJpaRepository.findByUserId(99);
         assertNull(actual);
     }
 }
