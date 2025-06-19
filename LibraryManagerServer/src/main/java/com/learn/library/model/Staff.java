@@ -18,6 +18,14 @@ public class Staff extends User {
         super(firstName, lastName);
     }
 
+    public LocalDate getHiredOn() {
+        return hiredOn;
+    }
+
+    public void setHiredOn(LocalDate hiredOn) {
+        this.hiredOn = hiredOn;
+    }
+
     @Override
     public String toString() {
         return "Staff{" +

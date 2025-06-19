@@ -18,6 +18,14 @@ public class Member extends User {
         super(firstName, lastName);
     }
 
+    public LocalDate getJoinedOn() {
+        return joinedOn;
+    }
+
+    public void setJoinedOn(LocalDate joinedOn) {
+        this.joinedOn = joinedOn;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
