@@ -23,4 +23,7 @@ import java.util.List;
 public interface UserJpaRepository extends UserRepository, JpaRepository<User, Integer> {
     List<User> findAll();
     User findByUserId(int userId);
+
+//    @Override
+    User save(User user);
 }

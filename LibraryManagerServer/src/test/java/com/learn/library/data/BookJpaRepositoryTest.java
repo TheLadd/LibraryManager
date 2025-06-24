@@ -1,6 +1,7 @@
 package com.learn.library.data;
 
 import com.learn.library.model.Book;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,15 @@ class BookJpaRepositoryTest {
     @Autowired
     private BookJpaRepository bookJpaRepository;
 
+    @Autowired
+    private DataTestUtil dataTestUtil;
+
     // Test entity mapping and any custom queries. Can test to learn JpaRepository behaviors, too.
+
+    @BeforeEach
+    void setKnownGoodState() {
+        dataTestUtil.setKnownGoodState();
+    }
 
     @Test
     void shouldFindByBookId() {
@@ -32,13 +41,6 @@ class BookJpaRepositoryTest {
         assertNull(actual);
     }
 
-//    @Test
-//    void shouldFindBooksByLovecraft() {
-//        List<Book> actual = bookJpaRepository.findByAuthor("H.P. Lovecraft");
-//        assertNotNull(actual);
-//        assertFalse(actual.isEmpty());
-//    }
-
     @Test
     void shouldSaveNewBook() {
         Book bookBeforeAdd = new Book("Murtagh", "Christopher Paolini", "Fantasy");
@@ -49,12 +51,22 @@ class BookJpaRepositoryTest {
         assertNotEquals(0, bookAfterAdd.getBookId());
 
         List<Book> all = bookJpaRepository.findAll();
-        all.contains(bookAfterAdd);
+        assertTrue(all.contains(bookAfterAdd));
     }
 
     @Test
-    void shouldDeleteBook() {}
+    void shouldDeleteBook() {
+        int preOperationSize = bookJpaRepository.findAll().size();
+        bookJpaRepository.deleteById(1);
+        int postOperationSize = bookJpaRepository.findAll().size();
+        assertEquals(preOperationSize-1, postOperationSize);
+    }
 
     @Test
-    void shouldNotDeleteUnkown() {}
+    void shouldNotDeleteUnknown() {
+        int preOperationSize = bookJpaRepository.findAll().size();
+        bookJpaRepository.deleteById(99);
+        int postOperationSize = bookJpaRepository.findAll().size();
+        assertEquals(preOperationSize, postOperationSize);
+    }
 }

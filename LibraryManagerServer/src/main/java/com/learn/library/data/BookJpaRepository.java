@@ -2,6 +2,7 @@ package com.learn.library.data;
 
 import com.learn.library.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface BookJpaRepository extends BookRepository, JpaRepository<Book, I
     Book save(Book book);
 
     Book findByBookId(int bookId);
+
+    void deleteById(int bookId);
 }

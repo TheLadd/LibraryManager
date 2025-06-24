@@ -1,6 +1,9 @@
 package com.learn.library.model;
 
+import com.learn.library.domain.ErrorMessages.BookErrorMessage;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -12,12 +15,18 @@ public class Book {
     private int bookId;
 
     @Column
+    @NotNull(message = BookErrorMessage.TITLE_NULL)
+    @NotEmpty(message = BookErrorMessage.TITLE_EMPTY)
     private String title;
 
     @Column
+    @NotNull(message = BookErrorMessage.AUTHOR_NULL)
+    @NotEmpty(message = BookErrorMessage.AUTHOR_NULL)
     private String author;
 
     @Column
+    @NotNull(message = BookErrorMessage.GENRE_NULL)
+    @NotEmpty(message = BookErrorMessage.GENRE_EMPTY)
     private String genre;
 
 

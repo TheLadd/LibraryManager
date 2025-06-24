@@ -8,4 +8,5 @@ public interface BookRepository {
     List<Book> findAll();
     Book findByBookId(int bookId);
     Book save(Book book);
+    void deleteById(int bookId);
 }

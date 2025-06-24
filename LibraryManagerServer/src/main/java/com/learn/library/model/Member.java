@@ -1,8 +1,12 @@
 package com.learn.library.model;
 
+import com.learn.library.domain.ErrorMessages.MemberErrorMessage;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("member")
@@ -10,12 +14,15 @@ import java.time.LocalDate;
 public class Member extends User {
 
     @Column(name = "joined_on")
+    @NotNull(message = MemberErrorMessage.JOINED_ON_NULL)
+    @PastOrPresent(message = MemberErrorMessage.JOINED_ON_FUTURE_DATED)
     LocalDate joinedOn;
 
     public Member() {}
 
-    public Member(String firstName, String lastName) {
+    public Member(String firstName, String lastName, LocalDate joinedOn) {
         super(firstName, lastName);
+        this.joinedOn = joinedOn;
     }
 
     public LocalDate getJoinedOn() {
@@ -34,5 +41,18 @@ public class Member extends User {
                 ", lastName='" + getLastName() + '\'' +
                 ", joinedOn='" + this.joinedOn +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Member member)) return false;
+        return Objects.equals(joinedOn, member.joinedOn) &&
+                Objects.equals(getFirstName(), member.getFirstName()) &&
+                Objects.equals(getLastName(), member.getLastName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(joinedOn);
     }
 }
