@@ -33,6 +33,12 @@ public abstract class User {
         this.lastName = lastName;
     }
 
+    public User(int userId, String firstName, String lastName) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public int getUserId() { return this.userId; };
     public String getFirstName() { return this.firstName; };
     public String getLastName() { return this.lastName; };

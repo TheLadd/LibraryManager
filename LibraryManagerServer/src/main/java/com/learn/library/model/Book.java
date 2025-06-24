@@ -38,6 +38,12 @@ public class Book {
         this.genre = genre;
     }
 
+    public Book(int bookId, String title, String author, String genre) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+    }
 
     public int getBookId() {
         return bookId;

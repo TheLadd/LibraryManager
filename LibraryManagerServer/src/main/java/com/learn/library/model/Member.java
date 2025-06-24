@@ -25,6 +25,11 @@ public class Member extends User {
         this.joinedOn = joinedOn;
     }
 
+    public Member(int memberId, String firstName, String lastName, LocalDate joinedOn) {
+        super(memberId, firstName, lastName);
+        this.joinedOn = joinedOn;
+    }
+
     public LocalDate getJoinedOn() {
         return joinedOn;
     }

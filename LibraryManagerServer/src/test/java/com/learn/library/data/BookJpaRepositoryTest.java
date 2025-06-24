@@ -69,4 +69,18 @@ class BookJpaRepositoryTest {
         int postOperationSize = bookJpaRepository.findAll().size();
         assertEquals(preOperationSize, postOperationSize);
     }
+
+    @Test
+    void shouldSaveBook() {
+        Book book = new Book("The Bell Jar", "Sylvia Plath", "Autobiography");
+        Book savedBook = bookJpaRepository.save(book);
+
+        assertEquals(4, savedBook.getBookId());
+        assertEquals(book.getTitle(), savedBook.getTitle());
+        assertEquals(book.getAuthor(), savedBook.getAuthor());
+        assertEquals(book.getGenre(), savedBook.getGenre());
+
+        List<Book> all = bookJpaRepository.findAll();
+        assertTrue(all.contains(savedBook));
+    }
 }

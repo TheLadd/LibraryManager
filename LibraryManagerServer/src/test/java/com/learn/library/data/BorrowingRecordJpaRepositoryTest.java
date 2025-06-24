@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +19,23 @@ class BorrowingRecordJpaRepositoryTest {
     void shouldFindAll() {
         List<BorrowingRecord> result = borrowingRecordJpaRepository.findAll();
         assertNotNull(result);
-        assertTrue(!result.isEmpty());
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    void shouldSaveActiveRecord() {
+        BorrowingRecord activeBorrowingRecord = new BorrowingRecord(DataTestUtil.user1, DataTestUtil.book1, LocalDate.now());
+        BorrowingRecord savedBorrowingRecord = borrowingRecordJpaRepository.save(activeBorrowingRecord);
+
+        assertEquals(3, savedBorrowingRecord.getBorrowingRecordId());
+        assertEquals(activeBorrowingRecord.getUser(), savedBorrowingRecord.getUser());
+        assertEquals(activeBorrowingRecord.getBook(), savedBorrowingRecord.getBook());
+        assertEquals(activeBorrowingRecord.getCheckedOutOn(), savedBorrowingRecord.getCheckedOutOn());
+        assertNull(savedBorrowingRecord.getReturnedOn());
+
+        List<BorrowingRecord> all = borrowingRecordJpaRepository.findAll();
+//        assertTrue(all.contains(savedBorrowingRecord));
+        assertEquals(all.get(2), savedBorrowingRecord);
+//        assertNull(all);
     }
 }

@@ -3,6 +3,7 @@ package com.learn.library.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "borrowing_record")
@@ -29,11 +30,19 @@ public class BorrowingRecord {
 
     public BorrowingRecord() {}
 
-    public BorrowingRecord(Member user, Book book, LocalDate checkedOutOn, LocalDate returnedOn) {
+    // Complete borrowing record
+    public BorrowingRecord(User user, Book book, LocalDate checkedOutOn, LocalDate returnedOn) {
         this.user = user;
         this.book = book;
         this.checkedOutOn = checkedOutOn;
         this.returnedOn = returnedOn;
+    }
+
+    // Active borrowing record
+    public BorrowingRecord(User user, Book book, LocalDate checkedOutOn) {
+        this.user = user;
+        this.book = book;
+        this.checkedOutOn = checkedOutOn;
     }
 
     public int getBorrowingRecordId() {
@@ -81,5 +90,16 @@ public class BorrowingRecord {
                 ", checkedOutOn=" + checkedOutOn +
                 ", returnedOn=" + returnedOn +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BorrowingRecord that)) return false;
+        return borrowingRecordId == that.borrowingRecordId && Objects.equals(user, that.user) && Objects.equals(book, that.book) && Objects.equals(checkedOutOn, that.checkedOutOn) && Objects.equals(returnedOn, that.returnedOn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(borrowingRecordId, user, book, checkedOutOn, returnedOn);
     }
 }
