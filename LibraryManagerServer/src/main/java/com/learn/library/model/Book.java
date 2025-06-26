@@ -15,17 +15,17 @@ public class Book {
     private int bookId;
 
     @Column
-    @NotNull(message = BookErrorMessage.TITLE_NULL)
+//    @NotNull(message = BookErrorMessage.TITLE_NULL)
     @NotEmpty(message = BookErrorMessage.TITLE_EMPTY)
     private String title;
 
     @Column
-    @NotNull(message = BookErrorMessage.AUTHOR_NULL)
-    @NotEmpty(message = BookErrorMessage.AUTHOR_NULL)
+//    @NotNull(message = BookErrorMessage.AUTHOR_NULL)
+    @NotEmpty(message = BookErrorMessage.AUTHOR_EMPTY)
     private String author;
 
     @Column
-    @NotNull(message = BookErrorMessage.GENRE_NULL)
+//    @NotNull(message = BookErrorMessage.GENRE_NULL)
     @NotEmpty(message = BookErrorMessage.GENRE_EMPTY)
     private String genre;
 

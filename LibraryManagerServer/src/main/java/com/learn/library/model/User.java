@@ -17,12 +17,12 @@ public abstract class User {
     private int userId;
 
     @Column(name = "first_name")
-    @NotNull(message = UserErrorMessage.FIRST_NAME_NULL)
+//    @NotNull(message = UserErrorMessage.FIRST_NAME_NULL)
     @NotEmpty(message = UserErrorMessage.FIRST_NAME_EMPTY)
     private String firstName;
 
     @Column(name = "last_name")
-    @NotNull(message = UserErrorMessage.LAST_NAME_NULL)
+//    @NotNull(message = UserErrorMessage.LAST_NAME_NULL)
     @NotEmpty(message = UserErrorMessage.LAST_NAME_EMPTY)
     private String lastName;
 
@@ -44,4 +44,8 @@ public abstract class User {
     public String getLastName() { return this.lastName; };
     public void setFirstName(String firstName) { this.firstName = firstName; };
     public void setLastName(String lastName) { this.lastName = lastName; };
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }
