@@ -34,8 +34,6 @@ class BorrowingRecordJpaRepositoryTest {
         assertNull(savedBorrowingRecord.getReturnedOn());
 
         List<BorrowingRecord> all = borrowingRecordJpaRepository.findAll();
-//        assertTrue(all.contains(savedBorrowingRecord));
         assertEquals(all.get(2), savedBorrowingRecord);
-//        assertNull(all);
     }
 }

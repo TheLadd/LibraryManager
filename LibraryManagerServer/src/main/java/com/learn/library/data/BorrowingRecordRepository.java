@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BorrowingRecordRepository {
     List<BorrowingRecord> findAll();
+    BorrowingRecord save(BorrowingRecord record);
 }

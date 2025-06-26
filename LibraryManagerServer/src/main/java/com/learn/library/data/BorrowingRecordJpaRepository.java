@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface BorrowingRecordJpaRepository extends BorrowingRecordRepository, JpaRepository<BorrowingRecord, Integer> {
     List<BorrowingRecord> findAll();
+
+    @Override
+    BorrowingRecord save(BorrowingRecord record);
 }
