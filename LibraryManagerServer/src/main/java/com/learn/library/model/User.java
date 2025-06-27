@@ -17,12 +17,10 @@ public abstract class User {
     private int userId;
 
     @Column(name = "first_name")
-//    @NotNull(message = UserErrorMessage.FIRST_NAME_NULL)
     @NotEmpty(message = UserErrorMessage.FIRST_NAME_EMPTY)
     private String firstName;
 
     @Column(name = "last_name")
-//    @NotNull(message = UserErrorMessage.LAST_NAME_NULL)
     @NotEmpty(message = UserErrorMessage.LAST_NAME_EMPTY)
     private String lastName;
 

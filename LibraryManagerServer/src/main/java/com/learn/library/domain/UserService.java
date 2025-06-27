@@ -2,6 +2,7 @@ package com.learn.library.domain;
 
 import com.learn.library.data.UserJpaRepository;
 import com.learn.library.data.UserRepository;
+import com.learn.library.domain.ErrorMessages.UserErrorMessage;
 import com.learn.library.model.User;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.validation.ConstraintViolation;
@@ -30,19 +31,22 @@ public class UserService {
 
 
     public Result<User> add(User user) {
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        Result<User> result = new Result<>();
+        if (user == null) {
+            result.addMessage(UserErrorMessage.NULL);
+            return result;
+        }
 
-        Result<User> result;
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
         if (!violations.isEmpty()) {
-            result = new Result<>(violations);
+            result.addMessages(violations.stream().map(ConstraintViolation::getMessage).toList());
         }
         else {
             User savedUser = userRepository.save(user);
             if (savedUser != null) {
-                result = new Result<>(savedUser);
+                result.setPayload(savedUser);
             }
             else {
-                result = new Result<>();
                 result.setType(ResultType.DATABASE_FAILURE);
             }
         }

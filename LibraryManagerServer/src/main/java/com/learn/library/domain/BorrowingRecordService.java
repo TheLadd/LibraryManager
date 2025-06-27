@@ -7,9 +7,12 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 
 import jakarta.validation.Validator;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
+@Service
 public class BorrowingRecordService {
     private BorrowingRecordRepository borrowingRecordRepository;
     private Validator validator;
@@ -19,21 +22,28 @@ public class BorrowingRecordService {
         this.validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    public Result<BorrowingRecord> add(BorrowingRecord record) {
-        Set<ConstraintViolation<BorrowingRecord>> violations = validator.validate(record);
+    public List<BorrowingRecord> findAll() {
+        return borrowingRecordRepository.findAll();
+    }
 
-        Result<BorrowingRecord> result;
+    public Result<BorrowingRecord> add(BorrowingRecord record) {
+        Result<BorrowingRecord> result = new Result<>();
+        if (record == null) {
+            result.addMessage(BorrowingRecordErrorMessages.NULL);
+            return result;
+        }
+
+        Set<ConstraintViolation<BorrowingRecord>> violations = validator.validate(record);
         if (!violations.isEmpty()) {
-            result = new Result<>(violations);
+            result.addMessages(violations.stream().map(ConstraintViolation::getMessage).toList());
         }
         else {
             BorrowingRecord savedRecord = borrowingRecordRepository.save(record);
             if (savedRecord != null) {
-                result = new Result<>(savedRecord);
+                result.setPayload(savedRecord);
             }
             else {
-                result = new Result<>();
-                result.setType(ResultType.DATABASE_FAILURE);
+                result.addMessage(BorrowingRecordErrorMessages.DATABASE_ERROR, ResultType.DATABASE_FAILURE);
             }
         }
 

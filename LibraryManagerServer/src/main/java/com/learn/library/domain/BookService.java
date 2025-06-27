@@ -2,6 +2,7 @@ package com.learn.library.domain;
 
 import com.learn.library.data.BookJpaRepository;
 import com.learn.library.data.BookRepository;
+import com.learn.library.domain.ErrorMessages.BookErrorMessage;
 import com.learn.library.model.Book;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -32,19 +33,23 @@ public class BookService {
     }
 
     public Result<Book> add(Book book) {
+        Result<Book> result = new Result<>();
+        if (book == null) {
+            result.addMessage(BookErrorMessage.NULL);
+            return result;
+        }
+
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
-        Result<Book> result;
         if (!violations.isEmpty()) {
-           result = new Result<>(violations);
+           result.addMessages(violations.stream().map(ConstraintViolation::getMessage).toList());
         }
         else {
             Book savedBook = bookRepository.save(book);
             if (savedBook != null) {
-                result = new Result<>(savedBook);
+                result.setPayload(savedBook);
             }
             else {
-                result = new Result<>();
                 result.setType(ResultType.DATABASE_FAILURE);
             }
         }

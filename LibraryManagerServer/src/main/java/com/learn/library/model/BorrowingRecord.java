@@ -1,7 +1,10 @@
 package com.learn.library.model;
 
 import com.learn.library.domain.ErrorMessages.BorrowingRecordErrorMessages;
+import com.learn.library.domain.ErrorMessages.UserErrorMessage;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
@@ -17,17 +20,22 @@ public class BorrowingRecord {
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)     // Tests don't pass if we're lazy fetching. I should do more research on this.
     @JoinColumn(name = "user_id")
+    @NotNull(message = BorrowingRecordErrorMessages.NULL_USER)
     private User user;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
+    @NotNull(message = BorrowingRecordErrorMessages.NULL_BOOK)
     private Book book;
 
     @Column(name = "checked_out_on")
+    @NotNull(message = BorrowingRecordErrorMessages.NULL_CHECKOUT_OUT_ON)
+    @PastOrPresent(message = BorrowingRecordErrorMessages.FUTURE_CHECKED_OUT_ON)
     private LocalDate checkedOutOn;
 
     @Column(name = "returned_on")
+    @PastOrPresent(message = BorrowingRecordErrorMessages.FUTURE_RETURNED_ON)
     private LocalDate returnedOn;
 
     public BorrowingRecord() {}
@@ -51,6 +59,7 @@ public class BorrowingRecord {
         return borrowingRecordId;
     }
 
+
     public User getUser() {
         return user;
     }
@@ -63,11 +72,11 @@ public class BorrowingRecord {
         return checkedOutOn;
     }
 
-    public LocalDate getReturnedOn() {
-        return returnedOn;
-    }
+    public LocalDate getReturnedOn() { return returnedOn; }
 
-    public void setUser(Member user) {
+    public void setBorrowingRecordId(int borrowingRecordId) { this.borrowingRecordId = borrowingRecordId; }
+
+    public void setUser(User user) {
         this.user = user;
     }
 
