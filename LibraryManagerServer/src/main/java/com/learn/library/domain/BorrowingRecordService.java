@@ -1,6 +1,7 @@
 package com.learn.library.domain;
 
 import com.learn.library.data.BorrowingRecordRepository;
+import com.learn.library.domain.ErrorMessages.BorrowingRecordErrorMessages;
 import com.learn.library.model.BorrowingRecord;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -37,5 +38,17 @@ public class BorrowingRecordService {
         }
 
         return result;
+    }
+
+    public Result<BorrowingRecord> update(BorrowingRecord record) {
+        // Do update specific validation
+        if (borrowingRecordRepository.findByBorrowingRecordId(record.getBorrowingRecordId()) == null) {
+            Result<BorrowingRecord> result = new Result<>();
+            result.addMessage(BorrowingRecordErrorMessages.UNKNOWN_ID(record.getBorrowingRecordId()));
+            return result;
+        }
+
+        // If it exists, our .add() logic will handle it (since it leverages JpaRepository.save())
+        return add(record);
     }
 }

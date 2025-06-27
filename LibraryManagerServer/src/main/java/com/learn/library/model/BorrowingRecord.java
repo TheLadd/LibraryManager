@@ -1,7 +1,8 @@
 package com.learn.library.model;
 
+import com.learn.library.domain.ErrorMessages.BorrowingRecordErrorMessages;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 import java.util.Objects;

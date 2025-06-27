@@ -24,6 +24,11 @@ public class Result<T> {
         this.type = ResultType.INVALID;
     }
 
+    public void addMessage(String message) {
+        messages.add(message);
+        this.type = ResultType.INVALID;
+    }
+
     public void addMessage(String message, ResultType type) {
         messages.add(message);
         this.type = type;
