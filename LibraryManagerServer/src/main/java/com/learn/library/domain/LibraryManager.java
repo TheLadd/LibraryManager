@@ -1,11 +1,16 @@
 package com.learn.library.domain;
 
+import com.learn.library.domain.ErrorMessages.LibraryManagerErrorMessage;
 import com.learn.library.model.Book;
 import com.learn.library.model.BorrowingRecord;
 import com.learn.library.model.User;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 
 /*
@@ -21,31 +26,55 @@ public class LibraryManager {
     private UserService userService;
     private BorrowingRecordService borrowingRecordService;
 
-    private LibraryManager(BookService bookService, UserService userService, BorrowingRecordService borrowingRecordService) {
+    public LibraryManager(BookService bookService, UserService userService, BorrowingRecordService borrowingRecordService) {
         this.bookService = bookService;
         this.userService = userService;
         this.borrowingRecordService = borrowingRecordService;
     }
 
-    public Book addBook(Book book) { return null; }
+    @Async
+    public CompletableFuture<Result<Book>> addBook(Book book) { return CompletableFuture.completedFuture(bookService.add(book)); }
 
-    public List<Book> findAllBooks() { return null; }
+    @Async
+    public CompletableFuture<List<Book>> findAllBooks() { return CompletableFuture.completedFuture(bookService.findAll()); }
 
-    public List<Book> findBookByTitle(String title) { return null; }
+    @Async
+    public CompletableFuture<List<Book>> findBookByTitle(String title) { return CompletableFuture.completedFuture(bookService.findByPredicate(book -> book.getTitle().contains(title))); }
 
-    public List<Book> findBookByAuthor(String author) { return null; }
+    @Async
+    public CompletableFuture<List<Book>> findBookByAuthor(String author) { return CompletableFuture.completedFuture(bookService.findByPredicate(book -> book.getAuthor().contains(author))); }
 
-    public List<Book> findBookByGenre(String genre) { return null; }
-
-
-    public User addUser(User user) { return null; }
-
-    public List<User> findAllUsers() { return null; }
+    @Async
+    public CompletableFuture<List<Book>> findBookByGenre(String genre) { return CompletableFuture.completedFuture(bookService.findByPredicate(book -> book.getGenre().contains(genre))); }
 
 
-    public BorrowingRecord borrowBook(User user, Book book) { return null; }
+    @Async
+    public CompletableFuture<Result<User>> addUser(User user) { return CompletableFuture.completedFuture(userService.add(user)); }
 
-    public BorrowingRecord returnBook(Book book) { return null; }
+    @Async
+    public CompletableFuture<List<User>> findAllUsers() { return CompletableFuture.completedFuture(userService.findAll()); }
 
-    public BorrowingRecord returnBook(BorrowingRecord record) { return null; }
+
+    @Async
+    public CompletableFuture<Result<BorrowingRecord>> borrowBook(User user, Book book) {
+        BorrowingRecord record = new BorrowingRecord(user, book, LocalDate.now());
+        return CompletableFuture.completedFuture(borrowingRecordService.add(record));
+    }
+
+    @Async
+    public CompletableFuture<Result<BorrowingRecord>> returnBook(Book book) {
+        // This assumes that we only have one copy of each book. Going to run with this for now...
+        Optional<BorrowingRecord> record = borrowingRecordService.findActiveRecords().stream()
+                .filter(br -> br.getBook().getBookId() == book.getBookId())
+                .findFirst();
+
+        if (record.isEmpty()) {
+            Result<BorrowingRecord> result = new Result<>();
+            result.addMessage(LibraryManagerErrorMessage.BOOK_NOT_CHECKED_OUT);
+            return CompletableFuture.completedFuture(result);
+        }
+
+        record.get().setReturnedOn(LocalDate.now());
+        return CompletableFuture.completedFuture(borrowingRecordService.update(record.get()));
+    }
 }
