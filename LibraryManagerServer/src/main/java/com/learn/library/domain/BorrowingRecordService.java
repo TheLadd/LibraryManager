@@ -9,6 +9,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +25,10 @@ public class BorrowingRecordService {
 
     public List<BorrowingRecord> findAll() {
         return borrowingRecordRepository.findAll();
+    }
+
+    public List<BorrowingRecord> findActiveRecords() {
+        return borrowingRecordRepository.findByReturnedOnIsNull();
     }
 
     public Result<BorrowingRecord> add(BorrowingRecord record) {
